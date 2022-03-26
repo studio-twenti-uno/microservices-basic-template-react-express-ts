@@ -29,6 +29,8 @@ server.post('/posts/:id/comments', (req, res) => {
 
    comments.unshift(newComment);
 
+   commentsByPostId[postId] = comments;
+
    res.status(201).send(comments);
 });
 
