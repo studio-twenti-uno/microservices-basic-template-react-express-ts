@@ -1,3 +1,11 @@
+import { PostsCreationForm } from './components';
+import { H1 } from './components/styled';
+
 export default () => {
-   return <div>Blog app</div>;
+   return (
+      <>
+         <H1>Create a post</H1>
+         <PostsCreationForm />
+      </>
+   );
 };
