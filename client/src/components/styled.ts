@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+export const H1 = styled.h1``;
+
 export const FormContainer = styled.div``;
 
 export const Form = styled.form``;
