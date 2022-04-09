@@ -1,4 +1,11 @@
-import { FormContainer, Form, FormGroup, Label, Input, PrimaryButton } from '../styled';
+import {
+   FormContainer,
+   Form,
+   FormGroup,
+   Label,
+   Input,
+   PrimaryButton,
+} from '../styled';
 
 export const PostsCreationForm = () => {
    return (
@@ -6,10 +13,16 @@ export const PostsCreationForm = () => {
          <Form name="createPost">
             <FormGroup>
                <Label htmlFor="title">Title</Label>
-               <Input id="title" type="text" placeholder="A wonderful post" />
+               <Input
+                  id="title"
+                  type="text"
+                  placeholder="A wonderful post"
+               />
             </FormGroup>
 
-            <PrimaryButton type="submit">Submit</PrimaryButton>
+            <PrimaryButton type="submit">
+               Submit
+            </PrimaryButton>
          </Form>
       </FormContainer>
    );
