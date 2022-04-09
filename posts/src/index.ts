@@ -1,9 +1,11 @@
 import express from 'express';
+import cors from 'cors';
 import { randomBytes } from 'crypto';
 
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 
 const posts: Record<string, { title: string; id: string }> = {};
 

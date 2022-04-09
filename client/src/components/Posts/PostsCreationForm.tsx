@@ -30,7 +30,6 @@ export const PostsCreationForm = () => {
             data: {
                title,
             },
-            withCredentials: true,
          });
 
          console.log(response);
