@@ -1,9 +1,11 @@
 import express from 'express';
+import cors from 'cors';
 import { randomBytes } from 'crypto';
 
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 
 // Comment type
 type Comments = Array<{ content: string; id: string }>;
