@@ -49,6 +49,7 @@ export const PostsCreationForm = () => {
                <Input
                   id="title"
                   type="text"
+                  value={title}
                   placeholder="A wonderful post"
                   onChange={handleChange}
                />
