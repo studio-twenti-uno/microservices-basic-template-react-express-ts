@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 export const H1 = styled.h1`
    font-size: 4.5rem;
    padding-bottom: 2.1rem;
+
+   color: #212121;
 `;
 
 export const FormContainer = styled.div``;
@@ -70,4 +72,27 @@ export const PrimaryButton = styled.button`
    :active {
       background-color: #212121;
    }
+`;
+
+export const HR = styled.hr`
+   width: 100%;
+   height: 0.15rem;
+   background-color: #212121;
+   border: none;
+
+   margin: 3rem 0;
+`;
+
+export const PostsListContainer = styled.div``;
+
+export const PostContainer = styled.div`
+   border: 1px solid #6e6e6e;
+   padding: 1.2rem 1.5rem;
+`;
+
+export const H2 = styled.h2`
+   font-size: 2.7rem;
+   padding-bottom: 1.5rem;
+
+   color: #6e6e6e;
 `;
