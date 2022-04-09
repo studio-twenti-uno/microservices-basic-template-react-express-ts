@@ -1,5 +1,6 @@
 import { PostsCreationForm } from './components';
 import { H1 } from './components/styled';
+import './global.css';
 
 export default () => {
    return (
