@@ -17,6 +17,10 @@ import { CommentsList } from '../Comments/CommentsList';
 type Post = {
    id: string;
    title: string;
+   comments: Array<{
+      id: string;
+      content: string;
+   }>;
 };
 
 type Posts = Record<string, Post>;
@@ -30,8 +34,10 @@ export const PostsList = (): JSX.Element => {
       try {
          const response = await axios({
             method: 'get',
-            url: 'http://localhost:4000/posts',
+            url: 'http://localhost:4002/posts',
          });
+
+         console.log(response.data);
 
          setPosts(response.data);
       } catch (error) {
@@ -56,7 +62,7 @@ export const PostsList = (): JSX.Element => {
             <PostContainer key={post.id}>
                <H2>{post.title}</H2>
                <H3>Comments</H3>
-               <CommentsList postId={post.id} />
+               <CommentsList comments={post.comments} />
                <CommentsCreationForm postId={post.id} />
             </PostContainer>
          )),
