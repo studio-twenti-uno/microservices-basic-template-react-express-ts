@@ -100,3 +100,29 @@ export const H2 = styled.h2`
 
    color: #6e6e6e;
 `;
+
+export const CommentContainer = styled.div`
+   padding-bottom: 1.2rem;
+`;
+
+export const H3 = styled.h3`
+   font-size: 1.8rem;
+   font-weight: 600;
+
+   color: darkslategray;
+`;
+
+export const CommentText = styled.p`
+   font-size: 1.5rem;
+   font-weight: 400;
+
+   color: darkslategray;
+`;
+
+export const CommentsListContainer = styled.div`
+   display: flex;
+   flex-direction: column;
+
+   padding-top: 1.5rem;
+   padding-bottom: 2.4rem;
+`;
