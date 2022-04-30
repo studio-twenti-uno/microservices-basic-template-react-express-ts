@@ -36,6 +36,11 @@ export const PostsCreationForm = () => {
             setTitle('');
          }
       } catch (error) {
+         if (axios.isAxiosError(error)) {
+            alert(error.message);
+         } else {
+            alert(error);
+         }
          console.log(error);
       }
    };
