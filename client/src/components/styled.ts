@@ -83,7 +83,11 @@ export const HR = styled.hr`
    margin: 3rem 0;
 `;
 
-export const PostsListContainer = styled.div``;
+export const PostsListContainer = styled.div`
+   display: flex;
+   flex-wrap: wrap;
+   gap: 3rem;
+`;
 
 export const PostContainer = styled.div`
    border: 1px solid #6e6e6e;
