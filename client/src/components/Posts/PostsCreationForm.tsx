@@ -32,7 +32,6 @@ export const PostsCreationForm = () => {
             },
          });
 
-         console.log(response);
          if (response.status === 201) {
             setTitle('');
          }
