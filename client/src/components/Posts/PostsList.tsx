@@ -7,9 +7,12 @@ import {
 import axios from 'axios';
 import {
    H2,
+   H3,
    PostContainer,
    PostsListContainer,
 } from '../styled';
+import { CommentsCreationForm } from '../Comments/CommentsCreationForm';
+import { CommentsList } from '../Comments/CommentsList';
 
 type Post = {
    id: string;
@@ -37,12 +40,14 @@ export const PostsList = (): JSX.Element => {
    };
 
    // Fetch memoization
-   const memoizedFetchPosts = useCallback(fetchPosts, []);
+   const memoizedFetchPosts = useCallback(fetchPosts, [
+      posts,
+   ]);
 
    // Effect
    useEffect(() => {
       memoizedFetchPosts();
-   }, [posts]);
+   }, []);
 
    // Render memo
    const renderedPosts = useMemo(
@@ -50,6 +55,9 @@ export const PostsList = (): JSX.Element => {
          Object.values(posts).map((post) => (
             <PostContainer key={post.id}>
                <H2>{post.title}</H2>
+               <H3>Comments</H3>
+               <CommentsList postId={post.id} />
+               <CommentsCreationForm postId={post.id} />
             </PostContainer>
          )),
       [posts],
