@@ -42,21 +42,22 @@ export const PostsList = (): JSX.Element => {
    // Effect
    useEffect(() => {
       memoizedFetchPosts();
-   }, []);
+   }, [posts]);
 
    // Render memo
    const renderedPosts = useMemo(
-      () => Object.values(posts),
-      [],
+      () =>
+         Object.values(posts).map((post) => (
+            <PostContainer key={post.id}>
+               <H2>{post.title}</H2>
+            </PostContainer>
+         )),
+      [posts],
    );
 
    return (
       <PostsListContainer>
-         {renderedPosts.map((post) => (
-            <PostContainer key={post.id}>
-               <H2>{post.title}</H2>
-            </PostContainer>
-         ))}
+         {renderedPosts}
       </PostsListContainer>
    );
 };
