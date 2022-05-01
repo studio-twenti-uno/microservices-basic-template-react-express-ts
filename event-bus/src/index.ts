@@ -24,7 +24,31 @@ type CommentCreationEvent = {
    };
 };
 
-type Event = PostCreationEvent | CommentCreationEvent;
+type CommentModerationEvent = {
+   type: 'CommentModerated';
+   payload: {
+      postId: string;
+      id: string;
+      content: string;
+      status: 'pending' | 'approved' | 'rejected';
+   };
+};
+
+type CommentUpdateEvent = {
+   type: 'CommentUpdated';
+   payload: {
+      postId: string;
+      id: string;
+      content: string;
+      status: 'pending' | 'approved' | 'rejected';
+   };
+};
+
+type Event =
+   | CommentUpdateEvent
+   | CommentModerationEvent
+   | PostCreationEvent
+   | CommentCreationEvent;
 
 // Events post route
 server.post('/events', async (req, res) => {
@@ -61,6 +85,17 @@ server.post('/events', async (req, res) => {
       });
    } catch (error) {
       console.log('Error emitting event to queriesService\n', error);
+   }
+
+   // Sending event to Moderation Service
+   try {
+      await axios({
+         method: 'post',
+         url: 'http://localhost:4003/events',
+         data: event,
+      });
+   } catch (error) {
+      console.log('Error emitting event to moderationService\n', error);
    }
 
    // Sending response to req origin
