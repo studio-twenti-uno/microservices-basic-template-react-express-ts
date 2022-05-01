@@ -31,7 +31,7 @@ server.post('/events', async (req, res) => {
 
    // Sending event to Posts Service
    try {
-      const postsServiceResponse = await axios({
+      await axios({
          method: 'post',
          url: 'http://localhost:4000/events',
          data: event,
@@ -42,7 +42,7 @@ server.post('/events', async (req, res) => {
 
    // Sending event to Comments Service
    try {
-      const commentsServiceResponse = await axios({
+      await axios({
          method: 'post',
          url: 'http://localhost:4001/events',
          data: event,
@@ -53,7 +53,7 @@ server.post('/events', async (req, res) => {
 
    // Sending event to Query Service
    try {
-      const queriesServiceResponse = await axios({
+      await axios({
          method: 'post',
          url: 'http://localhost:4002/events',
          data: event,
