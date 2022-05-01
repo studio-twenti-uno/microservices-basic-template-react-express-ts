@@ -20,6 +20,7 @@ type CommentCreationEvent = {
       postId: string;
       id: string;
       content: string;
+      status: 'pending' | 'approved' | 'rejected';
    };
 };
 

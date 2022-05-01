@@ -6,6 +6,13 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+type Comment = {
+   postId: string;
+   content: string;
+   id: string;
+   status: 'pending' | 'rejected' | 'approved';
+};
+
 // Event types
 type PostCreationEvent = {
    type: 'PostCreated';
@@ -21,6 +28,7 @@ type CommentCreationEvent = {
       postId: string;
       id: string;
       content: string;
+      status: 'pending' | 'approved' | 'rejected';
    };
 };
 
@@ -53,11 +61,11 @@ server.post('/events', (req, res) => {
       }
 
       case 'CommentCreated': {
-         const { id, postId, content } = payload;
+         const comment: Comment = payload;
 
-         const targetPost = posts[postId];
+         const targetPost = posts[comment.postId];
 
-         targetPost.comments.push({ id, content });
+         targetPost.comments.push({ ...comment });
 
          break;
       }

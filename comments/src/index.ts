@@ -9,7 +9,12 @@ server.use(express.json());
 server.use(cors());
 
 // Comment type
-type Comments = Array<{ content: string; id: string }>;
+type Comment = {
+   content: string;
+   id: string;
+   status: 'pending' | 'rejected' | 'approved';
+};
+type Comments = Array<Comment>;
 
 const commentsByPostId: Record<string, Comments> = {};
 
@@ -28,7 +33,7 @@ server.post('/posts/:id/comments', async (req, res) => {
 
    const newCommentId = randomBytes(4).toString('hex');
 
-   const newComment = { id: newCommentId, content };
+   const newComment: Comment = { id: newCommentId, content, status: 'pending' };
 
    comments.unshift(newComment);
 
@@ -36,7 +41,7 @@ server.post('/posts/:id/comments', async (req, res) => {
 
    // Emit event to event bus
    try {
-      const response = await axios({
+      await axios({
          method: 'post',
          url: 'http://localhost:4005/events',
          data: {
