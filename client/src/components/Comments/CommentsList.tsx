@@ -5,11 +5,26 @@ import {
    CommentText,
 } from '../styled';
 
-type Comments = Array<{
+type Comment = {
    content: string;
    id: string;
-}>;
+   postId: string;
+   status: 'approved' | 'pending' | 'rejected';
+};
+type Comments = Array<Comment>;
 type CommentsListProps = { comments: Comments };
+
+const resolveCommentContent = (
+   comment: Comment,
+): string => {
+   if (comment.status === 'rejected') {
+      return 'rejected Comment';
+   } else if (comment.status === 'approved') {
+      return comment.content;
+   } else {
+      return 'awaiting approval';
+   }
+};
 
 export const CommentsList = ({
    comments,
@@ -19,7 +34,9 @@ export const CommentsList = ({
       () =>
          comments.map((comment) => (
             <CommentContainer key={comment.id}>
-               <CommentText>{comment.content}</CommentText>
+               <CommentText>
+                  {resolveCommentContent(comment)}
+               </CommentText>
             </CommentContainer>
          )),
       [comments],

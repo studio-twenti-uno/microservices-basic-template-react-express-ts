@@ -14,13 +14,19 @@ import {
 import { CommentsCreationForm } from '../Comments/CommentsCreationForm';
 import { CommentsList } from '../Comments/CommentsList';
 
+type Comment = {
+   id: string;
+   content: string;
+   postId: string;
+   status: 'approved' | 'pending' | 'rejected';
+};
+
+type Comments = Array<Comment>;
+
 type Post = {
    id: string;
    title: string;
-   comments: Array<{
-      id: string;
-      content: string;
-   }>;
+   comments: Comments;
 };
 
 type Posts = Record<string, Post>;
