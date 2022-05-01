@@ -6,6 +6,7 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 
+// Types
 type Comment = {
    postId: string;
    content: string;
@@ -13,7 +14,14 @@ type Comment = {
    status: 'pending' | 'rejected' | 'approved';
 };
 
-// Event types
+type Comments = Array<Comment>;
+
+type Post = {
+   id: string;
+   title: string;
+   comments: Comments;
+};
+
 type PostCreationEvent = {
    type: 'PostCreated';
    payload: {
@@ -32,10 +40,17 @@ type CommentCreationEvent = {
    };
 };
 
-type Event = PostCreationEvent | CommentCreationEvent;
+type CommentUpdateEvent = {
+   type: 'CommentUpdated';
+   payload: {
+      postId: string;
+      id: string;
+      content: string;
+      status: 'pending' | 'approved' | 'rejected';
+   };
+};
 
-// Comment type
-type Comments = Array<{ content: string; id: string }>;
+type Event = CommentUpdateEvent | PostCreationEvent | CommentCreationEvent;
 
 // Posts constant (DB mock)
 const posts: Record<string, { title: string; id: string; comments: Comments }> = {};
@@ -70,6 +85,26 @@ server.post('/events', (req, res) => {
          break;
       }
 
+      case 'CommentUpdated': {
+         const { postId, content, id, status }: Comment = payload;
+
+         const targetPost: Post = posts[postId];
+         const targetComment: Comment | undefined = targetPost.comments.find(
+            (comment) => comment.id === id,
+         );
+
+         if (targetComment === undefined) {
+            console.log('Comment not located in queryService database');
+
+            break;
+         }
+
+         targetComment.content = content;
+         targetComment.status = status;
+
+         break;
+      }
+
       default: {
          console.log('received unregistered event', req.body);
 
@@ -77,7 +112,6 @@ server.post('/events', (req, res) => {
       }
    }
 
-   console.log(posts);
    res.send({});
 });
 
