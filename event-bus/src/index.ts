@@ -50,9 +50,17 @@ type Event =
    | PostCreationEvent
    | CommentCreationEvent;
 
+type Events = Array<Event>;
+
+// Events constant (DB Mock)
+const events: Events = [];
+
 // Events post route
 server.post('/events', async (req, res) => {
    const event: Event = req.body;
+
+   // persist event
+   events.push(event);
 
    // Sending event to Posts Service
    try {
@@ -101,5 +109,7 @@ server.post('/events', async (req, res) => {
    // Sending response to req origin
    res.send({ status: 'OK' });
 });
+
+server.get('/events', (_req, res) => res.send(events));
 
 server.listen(4005, () => console.log('listening on port 4005'));
