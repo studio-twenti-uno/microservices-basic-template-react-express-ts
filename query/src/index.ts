@@ -1,4 +1,5 @@
 import express from 'express';
+import axios from 'axios';
 import cors from 'cors';
 
 const server = express();
@@ -55,16 +56,9 @@ type Event = CommentUpdateEvent | PostCreationEvent | CommentCreationEvent;
 // Posts constant (DB mock)
 const posts: Record<string, { title: string; id: string; comments: Comments }> = {};
 
-// Get posts + comments
-server.get('/posts', (_req, res) => {
-   res.send(posts);
-});
-
-// Event receiver
-server.post('/events', (req, res) => {
-   console.log('received event: ', req.body.type);
-
-   const { type, payload }: Event = req.body;
+// handle events function
+const handleEvent = (event: Event) => {
+   const { type, payload } = event;
 
    switch (type) {
       case 'PostCreated': {
@@ -106,13 +100,44 @@ server.post('/events', (req, res) => {
       }
 
       default: {
-         console.log('received unregistered event', req.body);
-
          break;
       }
    }
+};
+
+// Get posts + comments
+server.get('/posts', (_req, res) => {
+   res.send(posts);
+});
+
+// Event receiver
+server.post('/events', (req, res) => {
+   console.log('received event: ', req.body.type);
+
+   const event: Event = req.body;
+
+   handleEvent(event);
 
    res.send({});
 });
 
-server.listen(4002, () => console.log('listening on port:', 4002));
+server.listen(4002, async () => {
+   console.log('Query service running on port: ', 4002);
+
+   // Catch up on any missed events
+   try {
+      const response = await axios({
+         method: 'get',
+         url: 'http://localhost:4005/events',
+      });
+
+      const events: Array<Event> = response.data;
+
+      for (const event of events) {
+         console.log('catching up on event: ', event.type);
+         handleEvent(event);
+      }
+   } catch (error) {
+      console.log('error while catching up on events');
+   }
+});
